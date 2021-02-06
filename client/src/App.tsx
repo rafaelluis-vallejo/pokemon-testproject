@@ -1,34 +1,65 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Axios from "axios";
 import "./App.css";
 
-function App() {
+const App: React.FC = () => {
+
+  // Add function here to get select options from database
+
+  const [pokemonName, setPokemonName] = useState<string>("");
+  const [pokemonLvl, setPokemonLvl] = useState<number>();
+  const [pokemonType, setPokemonType] = useState<string>("");
+
+  useEffect(() =>{
+    Axios.get('http://localhost:3001/api/get').then((response) => {
+      console.log(response);
+    });
+  });
+
+  const savePokemon = () => {
+    Axios.post("http://localhost:3001/api/insert", {
+      pokemonName: pokemonName,
+      pokemonLvl: pokemonLvl,
+      pokemonType: pokemonType,
+    }).then(() => {
+      alert('Message]: Pokemon saved successfully!')
+    });
+  };
+
   return (
     <div className="App">
-
-      
-
       <div className="container">
+        
         <h2>
-          Pokedex  <i> // Add Pokemon </i>
+          Pokedex <i> // Add Pokemon </i>
         </h2>
-
-
         <form>
-          <input placeholder="Enter Pokemon Name" type="text" name="pokemonName" />
-          
-          <input placeholder="Enter Pokemon Level" type="number" name="pokemonlvl" />
-          <select name="pokemonType">
-            <option value="" disabled selected>
-              Select Pokemon Type
-            </option>
-          </select>
-          <button> Save </button>
+          <input
+            placeholder="Enter Pokemon Name"
+            type="text"
+            name="pokemonName"
+            onChange={(e) => setPokemonName(e.target.value)}
+          />
+
+          <input
+            placeholder="Enter Pokemon Level"
+            type="number"
+            name="pokemonLvl"
+            onChange={(e) => setPokemonLvl(+e.target.value)}
+          />
+
+          <input
+            placeholder="Enter Pokemon Type"
+            type="text"
+            name="pokemonType"
+            onChange={(e) => setPokemonType(e.target.value)}
+          />
+
+          <button onClick={savePokemon}> Save </button>
         </form>
-
       </div>
-
     </div>
   );
-}
+};
 
 export default App;

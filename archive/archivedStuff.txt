@@ -1,0 +1,10 @@
+  <select
+    name="pokemonType"
+    onChange={(e) => setPokemonType(e.target.value)}
+  >
+    <option>Fire</option>
+    <option>Water</option>
+    <option>Leaf</option>
+    <option>Normal</option>
+    <option>Psychic</option>
+  </select>
