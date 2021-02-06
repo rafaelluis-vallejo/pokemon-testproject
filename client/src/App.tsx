@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
+
+import { List } from './model/listModel';
+import ListPokemon from "./components/ListPokemon";
 import "./App.css";
 
 const App: React.FC = () => {
 
   // Add function here to get select options from database
 
+  
+
   const [pokemonName, setPokemonName] = useState<string>("");
   const [pokemonLvl, setPokemonLvl] = useState<number>();
   const [pokemonType, setPokemonType] = useState<string>("");
+  const [pokemonList, setPokemonList] = useState<List[]>([]);
+
 
   useEffect(() =>{
-    Axios.get('http://localhost:3001/api/get').then((response) => {
-      console.log(response);
+    Axios.get('http://localhost:3001/api/get').then((response)=> {
+      setPokemonList(response.data);
     });
   });
 
@@ -22,7 +29,7 @@ const App: React.FC = () => {
       pokemonLvl: pokemonLvl,
       pokemonType: pokemonType,
     }).then(() => {
-      alert('Message]: Pokemon saved successfully!')
+      alert('[Message]: Pokemon saved successfully!')
     });
   };
 
@@ -55,9 +62,13 @@ const App: React.FC = () => {
             onChange={(e) => setPokemonType(e.target.value)}
           />
 
-          <button onClick={savePokemon}> Save </button>
+          <button onClick={savePokemon}>Save</button>
+          
         </form>
       </div>
+
+      <ListPokemon items={pokemonList} />
+      
     </div>
   );
 };

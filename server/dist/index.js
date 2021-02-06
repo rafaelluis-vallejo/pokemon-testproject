@@ -23,6 +23,12 @@ database.connect((err) => {
 app.use(cors_1.default());
 app.use(express_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
+app.get('/api/get', (req, res) => {
+    const sqlSelect = "SELECT * FROM pokemon_species";
+    database.query(sqlSelect, (err, result) => {
+        res.send(result);
+    });
+});
 app.post('/api/insert', (req, res) => {
     const pokemonName = req.body.pokemonName;
     const pokemonLvl = req.body.pokemonLvl;
